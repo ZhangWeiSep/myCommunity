@@ -19,8 +19,8 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "blog_essay_tag")
+//@Entity
+//@Table(name = "blog_essay_tag")
 public class EssayTagEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
