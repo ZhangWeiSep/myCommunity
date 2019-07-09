@@ -11,7 +11,7 @@
  Target Server Version : 80011
  File Encoding         : 65001
 
- Date: 05/07/2019 14:00:17
+ Date: 09/07/2019 15:42:27
 */
 
 SET NAMES utf8mb4;
@@ -79,7 +79,12 @@ CREATE TABLE `sys_user_auths`  (
   `identifier` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '登录标识：账号、手机号、微信号等',
   `password` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '密码凭证',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户登录授权信息（一个用户可对应多个授权信息）' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户登录授权信息（一个用户可对应多个授权信息）' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_user_auths
+-- ----------------------------
+INSERT INTO `sys_user_auths` VALUES (1, 1, 1, 'admin', '03934b80d3277df0e6972eaef5fedd21');
 
 -- ----------------------------
 -- Table structure for sys_user_info
@@ -95,7 +100,7 @@ CREATE TABLE `sys_user_info`  (
   `identity_card_type` tinyint(1) NULL DEFAULT NULL COMMENT '证件类型：1 身份证、2 军官证、3 驾驶证',
   `identity_card` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '证件号码',
   `phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '联系方式：手机号',
-  `e_mail` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '邮箱',
+  `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '邮箱',
   `synopsis` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '简介',
   `login_state` tinyint(1) NULL DEFAULT NULL COMMENT '登录状态：0 未登录、1 在线',
   `register_time` datetime(0) NULL DEFAULT NULL COMMENT '注册时间',
@@ -103,6 +108,11 @@ CREATE TABLE `sys_user_info`  (
   `last_time` datetime(0) NULL DEFAULT NULL COMMENT '最后一次登录时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户信息' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_user_info
+-- ----------------------------
+INSERT INTO `sys_user_info` VALUES (1, '张韦', '', NULL, NULL, NULL, NULL, NULL, '', '', '', NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_user_login_log
