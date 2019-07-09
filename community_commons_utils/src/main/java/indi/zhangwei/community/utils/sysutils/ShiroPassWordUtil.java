@@ -22,4 +22,8 @@ public class ShiroPassWordUtil {
         return obj;
     }
 
+    public static void main(String[] args) {
+        System.out.println(encryptPassword("admin", "123456"));
+    }
+
 }

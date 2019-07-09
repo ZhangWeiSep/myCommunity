@@ -3,9 +3,11 @@ package indi.zhangwei.community.usermanage.service.impl;
 import com.alibaba.druid.util.StringUtils;
 import indi.zhangwei.community.model.dto.UserLoginDTO;
 import indi.zhangwei.community.model.dto.UserRegInfoDTO;
-import indi.zhangwei.community.model.entity.UserAuthsEntity;
 import indi.zhangwei.community.model.vo.UserInfoLoginVO;
+import indi.zhangwei.community.usermanage.entity.UserAuthsEntity;
+import indi.zhangwei.community.usermanage.entity.UserInfoEntity;
 import indi.zhangwei.community.usermanage.repository.UserAuthsRepository;
+import indi.zhangwei.community.usermanage.repository.UserInfoRepository;
 import indi.zhangwei.community.usermanage.service.UserAuthsService;
 import indi.zhangwei.community.utils.sysutils.ShiroPassWordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +24,16 @@ import java.util.Optional;
 public class UserAuthsServiceImpl implements UserAuthsService {
 
     /**
-     * 引用数据库交互服务Bean
+     * 引用用户权证数据库交互服务Bean
      */
     @Autowired
     private UserAuthsRepository userAuthsRepository;
+
+    /**
+     * 引入用户信息数据库交互服务Bean
+     */
+    @Autowired
+    private UserInfoRepository userInfoRepository;
 
     /**
      * 用户登录
@@ -37,7 +45,21 @@ public class UserAuthsServiceImpl implements UserAuthsService {
      */
     @Override
     public UserInfoLoginVO userLogin(UserLoginDTO userLoginDTO) {
-        return null;
+        Optional<UserAuthsEntity> userAuthsInfo =
+                userAuthsRepository.findByIdentityTypeAndIdentifier(userLoginDTO.getIdentityType(),
+                userLoginDTO.getIdentifier());
+        UserInfoLoginVO userInfoLoginVO = null;
+        if (userAuthsInfo.isPresent()) {
+            UserAuthsEntity userAuthsEntity = userAuthsInfo.get();
+            if (StringUtils.equals(ShiroPassWordUtil.encryptPassword(userLoginDTO.getIdentifier(),
+                    userLoginDTO.getPassword()), userAuthsEntity.getPassword())) {
+                Optional<UserInfoEntity> userInfoEntity = userInfoRepository.findById(userAuthsEntity.getUserId());
+                userInfoLoginVO = UserInfoLoginVO.builder().id(userInfoEntity.get().getId())
+                        .userName(userInfoEntity.get().getUserName())
+                        .userImg(userInfoEntity.get().getUserImg()).build();
+            }
+        }
+        return userInfoLoginVO;
     }
 
     /**
@@ -50,12 +72,6 @@ public class UserAuthsServiceImpl implements UserAuthsService {
      */
     @Override
     public UserInfoLoginVO phoneLogin(UserLoginDTO userLoginDTO) {
-        Optional<UserAuthsEntity> userAuthsInfo = userAuthsRepository.findByIdentifierTypeAndIdentifier(userLoginDTO.getIdentifierType(),
-                userLoginDTO.getIdentifier());
-        userAuthsInfo.ifPresent(userAuthsEntity ->
-            StringUtils.equals(ShiroPassWordUtil.encryptPassword(userLoginDTO.getIdentifier(),
-                    userLoginDTO.getPassword()), ShiroPassWordUtil.encryptPassword(userAuthsEntity.getIdentifier(),
-                    userAuthsEntity.getPassword())));
         return null;
     }
 

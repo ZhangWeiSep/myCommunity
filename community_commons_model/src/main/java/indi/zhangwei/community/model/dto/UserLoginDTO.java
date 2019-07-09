@@ -23,7 +23,7 @@ public class UserLoginDTO implements Serializable {
     /**
      * 登录类型
      */
-    private Integer identifierType;
+    private Integer identityType;
 
     /**
      * 登录标识

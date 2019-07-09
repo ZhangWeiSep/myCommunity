@@ -30,7 +30,7 @@ public class UserRegInfoDTO implements Serializable {
     /**
      * 登录类型
      */
-    private String identifierType;
+    private String identityType;
 
     /**
      * 登录标识
